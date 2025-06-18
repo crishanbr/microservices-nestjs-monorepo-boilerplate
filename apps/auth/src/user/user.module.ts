@@ -5,15 +5,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { DatabaseModule } from '@app/common';
-import { UserDocument, UserSchema } from './models/user.schema';
 import { UserRepository } from './user.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
     DatabaseModule,
-    DatabaseModule.forFeature([
-      { name: UserDocument.name, schema: UserSchema },
-    ]),
+    TypeOrmModule.forFeature([User]),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],

@@ -23,5 +23,13 @@ services:
       - 3001:3001
     volumes:
       - .:/usr/src/app
-  mongo:
-    image: mongo
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: reservations_db
+    volumes:
+      - ./.postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
