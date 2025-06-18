@@ -4,6 +4,8 @@ import { AuthService } from './auth.service';
 import { UserModule } from './user/user.module';
 import { APP_PIPE } from '@nestjs/core';
 import { JwtStrategy, LoggerModule } from '@app/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user/entities/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { JwtModule } from '@nestjs/jwt';
@@ -13,15 +15,20 @@ import { LocalStrategy } from './strategies/local.strategy';
   imports: [
     UserModule,
     LoggerModule,
+    TypeOrmModule.forFeature([User]),
     ConfigModule.forRoot({
       validationSchema: Joi.object({
-        MONGODB_URI: Joi.string().required(),
         NODE_ENV: Joi.string()
           .valid('development', 'production', 'test')
           .required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION: Joi.number().required(),
         PORT: Joi.number().port().required(),
+        POSTGRES_HOST: Joi.string().required(),
+        POSTGRES_PORT: Joi.number().port().required(),
+        POSTGRES_USER: Joi.string().required(),
+        POSTGRES_PASSWORD: Joi.string().required(),
+        POSTGRES_DB: Joi.string().required(),
       }),
       isGlobal: true,
     }),

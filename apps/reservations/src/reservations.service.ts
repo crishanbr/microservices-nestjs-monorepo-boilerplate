@@ -6,8 +6,8 @@ import { ReservationsRepository } from './reservations.repository';
 @Injectable()
 export class ReservationsService {
   constructor(private repo: ReservationsRepository) {}
-  create(createReservationDto: CreateReservationDto) {
-    return this.repo.create(createReservationDto);
+  async create(createReservationDto: CreateReservationDto) {
+    return await this.repo.create(createReservationDto);
   }
 
   findAll() {
